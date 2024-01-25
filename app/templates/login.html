@@ -24,6 +24,7 @@
                 {{form.remember_me()}} {{form.remember_me.label}}
             </p>
             <p>{{form.submit()}}</p>
+            <p>Não tem conta? <a href="{{ url_for('register') }}">Registrar!</a></p>
         </form>
     </div>
 {% endblock %}
