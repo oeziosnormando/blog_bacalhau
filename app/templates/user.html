@@ -7,9 +7,24 @@
             <td>
                 <h1>Usuário: {{ user.username }}</h1>
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
-                {% if user.last_seen %}<p>Last seen on: {{ user.last_seen }}</p>{% endif %}
+                {% if user.last_seen %}<p>Visto pela última vez em: {{ user.last_seen }}</p>{% endif %}
+                <p>{{ user.followers_count() }} Seguindo, {{ user.following_count() }} Seguidores.</p>
                 {% if user == current_user %}
-                <p><a href="{{ url_for('edit_profile') }}">Editar perfil</a></p>
+                <p><a href="{{ url_for('edit_profile') }}">Editar Perfil</a></p>
+                {% elif not current_user.is_following(user) %}
+                <p>
+                    <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(value='Follow') }}
+                    </form>
+                </p>
+                {% else %}
+                <p>
+                    <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+                        {{ form.hidden_tag() }}
+                        {{ form.submit(value='Unfollow') }}
+                    </form>
+                </p>
                 {% endif %}
             </td>
         </tr>
