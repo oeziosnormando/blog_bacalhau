@@ -16,12 +16,12 @@ class LoginForm(FlaskForm):
     
     
 class RegistrationForm(FlaskForm):
-    username = StringField('Usuario', validators=[DataRequired()])
+    username = StringField('Usuário', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Senha', validators=[DataRequired()])
     password2 = PasswordField(
-        'Confirme a senha', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Registrar')
+        'Confirmar a senha', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Cadastrar')
 
     def validate_username(self, username):
         user = db.session.scalar(sa.select(User).where(
@@ -35,9 +35,9 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different email address.')
         
-        
-        
-# editor de perfil
+
+
+# Valide o nome de usuário no formulário de edição de perfil.
 class EditProfileForm(FlaskForm):
     username = StringField('Usuário', validators=[DataRequired()])
     about_me = TextAreaField('Sobre mim', validators=[Length(min=0, max=140)])
@@ -56,4 +56,25 @@ class EditProfileForm(FlaskForm):
             
             
 class EmptyForm(FlaskForm):
-    submit = SubmitField('Submit')
+    submit = SubmitField('Enviar')
+    
+    
+class PostForm(FlaskForm):
+    post = TextAreaField('Diga alguma coisa', validators=[
+        DataRequired(), Length(min=1, max=140)])
+    submit = SubmitField('Criar Post')
+    
+#redefinir senha
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Requisitar nova senha')
+
+
+# Formulário de redefinição de senha.
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Senha', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Confirmar senha', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Resetar senha')    
+
+
