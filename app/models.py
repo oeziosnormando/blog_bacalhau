@@ -8,7 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from time import time
 import jwt
-from app import app
+from app import app, db, login
 
 
 #tabela de associação de seguidores
@@ -113,13 +113,12 @@ class User(UserMixin, db.Model):
         except:
             return
         return db.session.get(User, id)
-    
-    
-    
+
+
+
 @login.user_loader
 def load_user(id):
     return db.session.get(User, int(id))   
-
 
 
 class Post(db.Model):
